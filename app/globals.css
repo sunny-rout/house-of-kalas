@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/* ─── HOK Design Tokens via Tailwind v4 CSS Theme ─────────────────────── */
+@theme {
+  /* Colors */
+  --color-hok-surface: #fff8f3;
+  --color-hok-surface-dim: #e8d8c3;
+  --color-hok-surface-bright: #fff8f3;
+  --color-hok-surface-container-lowest: #ffffff;
+  --color-hok-surface-container-low: #fff2e2;
+  --color-hok-surface-container: #fcebd6;
+  --color-hok-surface-container-high: #f6e6d0;
+  --color-hok-surface-container-highest: #f0e0cb;
+  --color-hok-on-surface: #221a0d;
+  --color-hok-on-surface-variant: #524348;
+  --color-hok-inverse-surface: #382f21;
+  --color-hok-inverse-on-surface: #ffeed9;
+  --color-hok-outline: #847378;
+  --color-hok-outline-variant: #d6c1c7;
+  --color-hok-surface-tint: #8e4767;
+
+  --color-hok-primary: #2b0018;
+  --color-hok-on-primary: #ffffff;
+  --color-hok-primary-container: #4a0e2e;
+  --color-hok-on-primary-container: #c57597;
+  --color-hok-inverse-primary: #ffb0cf;
+
+  --color-hok-secondary: #b22c00;
+  --color-hok-on-secondary: #ffffff;
+  --color-hok-secondary-container: #fe5e32;
+  --color-hok-on-secondary-container: #591100;
+
+  --color-hok-tertiary: #2b0300;
+  --color-hok-on-tertiary: #ffffff;
+  --color-hok-tertiary-container: #4b1206;
+  --color-hok-on-tertiary-container: #cd7662;
+
+  --color-hok-error: #ba1a1a;
+  --color-hok-on-error: #ffffff;
+  --color-hok-error-container: #ffdad6;
+  --color-hok-on-error-container: #93000a;
+
+  --color-hok-primary-fixed: #ffd8e5;
+  --color-hok-primary-fixed-dim: #ffb0cf;
+  --color-hok-on-primary-fixed: #3c0223;
+  --color-hok-on-primary-fixed-variant: #72304f;
+
+  --color-hok-secondary-fixed: #ffdbd1;
+  --color-hok-secondary-fixed-dim: #ffb5a1;
+  --color-hok-on-secondary-fixed: #3b0800;
+  --color-hok-on-secondary-fixed-variant: #881f00;
+
+  --color-hok-tertiary-fixed: #ffdad2;
+  --color-hok-tertiary-fixed-dim: #ffb4a3;
+  --color-hok-on-tertiary-fixed: #3c0701;
+  --color-hok-on-tertiary-fixed-variant: #763222;
+
+  --color-hok-background: #fff8f3;
+  --color-hok-on-background: #221a0d;
+  --color-hok-surface-variant: #f0e0cb;
+
+  --color-hok-on-primary-container: #c57597;
+
+  /* Fonts */
+  --font-display: "Playfair Display", serif;
+  --font-body: "Be Vietnam Pro", system-ui, sans-serif;
+
+  /* Font sizes */
+  --text-display-lg: 72px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+
+  --text-headline-lg: 48px;
+  --text-headline-lg--line-height: 1.2;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 1.2;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 1.3;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 1.2;
+  --text-label-lg--letter-spacing: 0.1em;
+
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 1.2;
+  --text-label-sm--letter-spacing: 0.05em;
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+}
+
+/* ─── Base Styles ──────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-hok-background);
+  color: var(--color-hok-on-surface);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+}
