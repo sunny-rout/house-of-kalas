@@ -54,12 +54,12 @@ const containerVariants = {
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40, rotateX: 6 },
-  visible: (i: number) => ({
+  visible: {
     opacity: 1,
     y: 0,
     rotateX: 0,
-    transition: { delay: 0.15 * i, duration: 0.6, ease: "easeOut" },
-  }),
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
 };
 
 /* ── Quote mark SVG ─────────────────────────────────────────────────────── */
@@ -123,7 +123,6 @@ function StoryCard({
 }) {
   return (
     <motion.article
-      custom={index}
       variants={cardVariants}
       whileHover={{ scale: 1.02, y: -5 }}
       transition={{ type: "spring", stiffness: 280, damping: 22 }}
