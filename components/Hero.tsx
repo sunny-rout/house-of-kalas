@@ -1,23 +1,61 @@
 "use client";
 
-import { useRef } from "react";
-import Image from "next/image";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+
+const VIDEOS = [
+  "/vid/Kids_hip-hop_dance_practice_studio_202606011322.mp4",
+  "/vid/Adults_rehearsing_classical_Indi…_202606011324.mp4",
+  "/vid/Adults_rehearsing_performance_in…_202606011327.mp4",
+];
+
+const SLIDE_DURATION = 6000;
 
 export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Band drifts upward as you scroll
   const bandY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  // Logo rises slightly
   const logoY = useTransform(scrollYProgress, [0, 1], [0, -40]);
-  // Background image parallax (moves slower than scroll = depth effect)
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
+  const goTo = useCallback((index: number) => {
+    setPrevIndex(activeIndex);
+    setActiveIndex(index);
+  }, [activeIndex]);
+
+  const advance = useCallback(() => {
+    goTo((activeIndex + 1) % VIDEOS.length);
+  }, [activeIndex, goTo]);
+
+  // Auto-advance
+  useEffect(() => {
+    timerRef.current = setTimeout(advance, SLIDE_DURATION);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [advance]);
+
+  // Play the active video, pause others
+  useEffect(() => {
+    videoRefs.current.forEach((vid, i) => {
+      if (!vid) return;
+      if (i === activeIndex) {
+        vid.currentTime = 0;
+        vid.play().catch(() => {});
+      } else {
+        vid.pause();
+      }
+    });
+  }, [activeIndex]);
 
   return (
     <section
@@ -26,21 +64,25 @@ export default function Hero() {
       className="relative h-screen overflow-hidden flex flex-col items-center justify-center"
       style={{ backgroundColor: "var(--color-hok-background)" }}
     >
-      {/* ── Studio background image (parallax) ─────────────────────── */}
+      {/* ── Video carousel background ───────────────────────────────── */}
       <motion.div
         style={{ y: bgY }}
         className="pointer-events-none absolute inset-0 scale-110"
         aria-hidden="true"
       >
-        <Image
-          src="/assets/hok-studio-page.png"
-          alt=""
-          fill
-          priority
-          quality={90}
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+        {VIDEOS.map((src, i) => (
+          <video
+            key={src}
+            ref={(el) => { videoRefs.current[i] = el; }}
+            src={src}
+            muted
+            loop
+            playsInline
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000"
+            style={{ opacity: i === activeIndex ? 1 : 0 }}
+          />
+        ))}
       </motion.div>
 
       {/* ── Dark cinematic overlay ──────────────────────────────────── */}
@@ -49,11 +91,11 @@ export default function Hero() {
         aria-hidden="true"
         style={{
           background:
-            "linear-gradient(160deg, rgba(34,10,20,0.72) 0%, rgba(43,0,24,0.60) 50%, rgba(142,71,103,0.40) 100%)",
+            "linear-gradient(160deg, rgba(34,10,20,0.75) 0%, rgba(43,0,24,0.65) 50%, rgba(142,71,103,0.42) 100%)",
         }}
       />
 
-      {/* ── Soft flow band (over image) ────────────────────────────── */}
+      {/* ── Soft flow band ─────────────────────────────────────────── */}
       <motion.div
         style={{ y: bandY }}
         className="pointer-events-none absolute inset-0 flex items-center justify-center"
@@ -148,7 +190,6 @@ export default function Hero() {
           </div>
         </motion.div>
 
-
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-4 items-center mt-2">
           {/* Primary CTA */}
@@ -191,7 +232,6 @@ export default function Hero() {
               letterSpacing: "0.04em",
             }}
           >
-            {/* WhatsApp icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -203,6 +243,26 @@ export default function Hero() {
             Talk to us on WhatsApp
           </motion.a>
         </div>
+      </div>
+
+      {/* ── Carousel dot indicators ─────────────────────────────────── */}
+      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+        {VIDEOS.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className="relative rounded-full transition-all duration-500 cursor-pointer"
+            style={{
+              width: i === activeIndex ? "28px" : "8px",
+              height: "8px",
+              backgroundColor:
+                i === activeIndex
+                  ? "rgba(255,220,200,0.95)"
+                  : "rgba(255,220,200,0.35)",
+            }}
+          />
+        ))}
       </div>
 
       {/* ── Scroll hint ────────────────────────────────────────────── */}
