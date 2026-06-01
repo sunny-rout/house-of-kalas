@@ -348,9 +348,9 @@ export default function Stories() {
           {[
             {
               roleLabel: "Co-Founder",
-              nameFirst: "Sonia",
+              nameFirst: "Ssonia",
               nameLast: "Deshmukh",
-              bio: "With over a decade of performance and teaching experience, Sonia built House of Kalas on a simple conviction: that every person deserves a space where they are guided, seen, and celebrated.",
+              bio: "With over a decade of performance and teaching experience, Ssonia built House of Kalas on a simple conviction: that every person deserves a space where they are guided, seen, and celebrated.",
               traits: ["10+ Years Teaching", "Choreographer", "Community Builder"],
               imageSrc: "/founders/ssonia-deshmukh.jpeg",
             },
